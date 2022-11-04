@@ -6,11 +6,18 @@
 
 
 <div>
+
+    <a href="{% url 'create-room' %}">Create Room</a> 
+    <!-- this link allows us to create a room at the top of the list of existing rooms -->
+
     <div>
         {% for room in rooms %}
             <div>
+                <span>@{{room.host.username}}</span>
                 <h5>{{room.id}} -- <a href="{% url 'room' room.id%}">{{room.name}}</a></h5>
             <!-- we can use 'room' above because we are referencing the name of the urlpatterns path rather than the url itself -->
+                <small>{{room.topic}}</small>
+                <hr>
             </div>
         {% endfor %}
     </div>
