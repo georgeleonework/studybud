@@ -1,5 +1,6 @@
 {% extends 'main.html' %}
 
 {% block content %}
-<h1>Room Template</h1>
+<h1>{{room.name}}</h1>
+<!-- since we have the context for this view set to the matching room, then we can just display room.name -->
 {% endblock %}

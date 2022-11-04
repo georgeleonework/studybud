@@ -9,7 +9,8 @@
     <div>
         {% for room in rooms %}
             <div>
-                <h5>{{room.id}} -- <a href="/room/{{room.id}}">{{room.name}}</a></h5>
+                <h5>{{room.id}} -- <a href="{% url 'room' room.id%}">{{room.name}}</a></h5>
+            <!-- we can use 'room' above because we are referencing the name of the urlpatterns path rather than the url itself -->
             </div>
         {% endfor %}
     </div>
