@@ -13,6 +13,8 @@
     <div>
         {% for room in rooms %}
             <div>
+                <a href="{% url 'update-room' room.id%}">Edit</a>
+                <a href="">Delete</a>
                 <span>@{{room.host.username}}</span>
                 <h5>{{room.id}} -- <a href="{% url 'room' room.id%}">{{room.name}}</a></h5>
             <!-- we can use 'room' above because we are referencing the name of the urlpatterns path rather than the url itself -->

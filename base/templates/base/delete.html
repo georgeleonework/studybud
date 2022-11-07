@@ -1,0 +1,9 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<form action="" method="POST">
+    {% csrf_token %} <!-- you need a csrf token for post request forms-->
+</form>
+
+{% endblock content %}
