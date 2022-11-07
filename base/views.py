@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.db.models import Q
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 from .models import Room, Topic
 from .forms import RoomForm
 
@@ -23,6 +24,14 @@ def loginPage(request):
             messages.error(request, 'User does not exist')
         #were either verifying that username = username somewhere in the database or alrting the user that that username doesnt exist
 
+        user = authenticate(request, username=username, password=password)
+
+#in the following check were going to log the user in if there is a match for both username and password.
+        if user is not None:
+            login(request, user)
+            return redirect('home') #once the user is logged in we want to redirect them to the home page
+        else:
+            messages.error(request, 'Username OR Password is does not exist')
     context = {}
     return render(request, 'base/login_register.html', context)
 
