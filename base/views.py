@@ -41,5 +41,9 @@ def updateRoom(request, pk): #the pk here tells us which item were updating
     context = {'form': form}
     return render(request, 'base/room_form.html', context)
 
-# def deleteRoom(request, pk):
-#     room = Room.objects.get(id=pk)
+def deleteRoom(request, pk):
+    room = Room.objects.get(id=pk)
+    if request.method == 'POST':
+        room.delete()
+        return redirect('home') #this will send the user back to home if theyve successfully deleted their room
+    return render(request, 'base/delete.html', {'obj':room})
