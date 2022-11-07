@@ -88,8 +88,8 @@ def updateRoom(request, pk): #the pk here tells us which item were updating
     room = Room.objects.get(id=pk) #this initializes the room we want to access by the pk
     form = RoomForm(instance=room)
 
-    if request.user != room.user:
-        return HttpResponse('You are not allowed here')
+    if request.user != room.host: #this requires that only the person who created or was assigned hosting privileges can do things
+        return HttpResponse('You are not allowed here!')
 
     if request.method == 'POST':
         form = RoomForm(request.POST, instance=room) #the instance value determines the room were updated
@@ -105,6 +105,10 @@ def updateRoom(request, pk): #the pk here tells us which item were updating
 @login_required(login_url='login')
 def deleteRoom(request, pk):
     room = Room.objects.get(id=pk)
+    
+    if request.user != room.host:
+        return HttpResponse('You are not allowed here ')   
+        
     if request.method == 'POST':
         room.delete()
         return redirect('home') #this will send the user back to home if theyve successfully deleted their room
