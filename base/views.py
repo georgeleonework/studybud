@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -66,7 +68,9 @@ def room(request, pk):
     return render(request, 'base/room.html', context)
 
 
-
+ #all we need to do is add this decorator to restrict certain functionality to a login status
+#the login url parameter above is where we redirect users in the case that theyre not logged in
+@login_required(login_url='login')
 def createRoom(request):
     form = RoomForm()
     if request.method == 'POST':
@@ -79,10 +83,13 @@ def createRoom(request):
 
 
 
-
+@login_required(login_url='login')
 def updateRoom(request, pk): #the pk here tells us which item were updating
     room = Room.objects.get(id=pk) #this initializes the room we want to access by the pk
     form = RoomForm(instance=room)
+
+    if request.user != room.user:
+        return HttpResponse('You are not allowed here')
 
     if request.method == 'POST':
         form = RoomForm(request.POST, instance=room) #the instance value determines the room were updated
@@ -95,7 +102,7 @@ def updateRoom(request, pk): #the pk here tells us which item were updating
 
 
 
-
+@login_required(login_url='login')
 def deleteRoom(request, pk):
     room = Room.objects.get(id=pk)
     if request.method == 'POST':
