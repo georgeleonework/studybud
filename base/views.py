@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Room
+from .models import Room, Topic
 from .forms import RoomForm
 
 # rooms = [
@@ -10,13 +10,22 @@ from .forms import RoomForm
 
 def home(request):
     rooms = Room.objects.all() #this gives us access to all of the rooms in the database
-    context = {'rooms': rooms}
+    
+    topics = Topic.objects.all()
+    
+    context = {'rooms': rooms, 'topics':topics}
     return render(request, 'base/home.html', context)
+
+
+
+
 
 def room(request, pk):
     room = Room.objects.get(id=pk) #sets tge room to view as the instance where the id matches the key
     context = {'room': room}
     return render(request, 'base/room.html', context)
+
+
 
 def createRoom(request):
     form = RoomForm()
@@ -27,6 +36,9 @@ def createRoom(request):
             return redirect('home') #this is the name value from our form which allows ur to reference easier
     context = {'form': form}
     return render(request, 'base/room_form.html', context)
+
+
+
 
 def updateRoom(request, pk): #the pk here tells us which item were updating
     room = Room.objects.get(id=pk) #this initializes the room we want to access by the pk
@@ -40,6 +52,9 @@ def updateRoom(request, pk): #the pk here tells us which item were updating
 
     context = {'form': form}
     return render(request, 'base/room_form.html', context)
+
+
+    
 
 def deleteRoom(request, pk):
     room = Room.objects.get(id=pk)
