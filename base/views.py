@@ -32,10 +32,14 @@ def loginPage(request):
             return redirect('home') #once the user is logged in we want to redirect them to the home page
         else:
             messages.error(request, 'Username OR Password is does not exist')
+    
     context = {}
     return render(request, 'base/login_register.html', context)
 
 
+def logoutUser(request):
+    logout(request) #this will delete that token session 
+    return redirect('home')
 
 def home(request):
     q = request.GET.get('q') if request.GET.get('q') != None else '' #this is an inline if check that ssets query parameter q
