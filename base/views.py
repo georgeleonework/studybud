@@ -14,11 +14,12 @@ def home(request):
 
     rooms = Room.objects.filter(
         Q(topic__name__icontains=q) | #checking the query here to make sure that q has EITHEr of these qualities
-        Q(name_icontains=q) |
+        Q(name__icontains=q) |
         Q(description__icontains=q)
     ) #in other words, does the topic, name, or description contain the value of the search?
 
     topics = Topic.objects.all()
+    room_count = rooms.count()
     
     context = {'rooms': rooms, 'topics':topics}
     return render(request, 'base/home.html', context)
