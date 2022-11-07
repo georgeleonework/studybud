@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.db.models import Q
 from .models import Room, Topic
 from .forms import RoomForm
 
@@ -9,8 +10,14 @@ from .forms import RoomForm
 # ]
 
 def home(request):
-    rooms = Room.objects.all() #this gives us access to all of the rooms in the database
-    
+    q = request.GET.get('q') if request.GET.get('q') != None else '' #this is an inline if check that ssets query parameter q
+
+    rooms = Room.objects.filter(
+        Q(topic__name__icontains=q) | #checking the query here to make sure that q has EITHEr of these qualities
+        Q(name_icontains=q) |
+        Q(description__icontains=q)
+    ) #in other words, does the topic, name, or description contain the value of the search?
+
     topics = Topic.objects.all()
     
     context = {'rooms': rooms, 'topics':topics}
@@ -54,7 +61,7 @@ def updateRoom(request, pk): #the pk here tells us which item were updating
     return render(request, 'base/room_form.html', context)
 
 
-    
+
 
 def deleteRoom(request, pk):
     room = Room.objects.get(id=pk)
