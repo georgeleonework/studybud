@@ -4,6 +4,9 @@
 
 <form action="" method="POST">
     {% csrf_token %} <!-- you need a csrf token for post request forms-->
+    <p>Are you sure you want to delete? "{{obj}}"?</p>
+    <a href="{{request.META.HTTP_REFERER}}"></a> <!-- this is a method that will send the user back to the previous page -->
+    <input type="submit" value="Confirm"/>
 </form>
 
 {% endblock content %}
