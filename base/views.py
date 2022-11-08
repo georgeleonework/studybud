@@ -92,6 +92,10 @@ def room(request, pk):
     return render(request, 'base/room.html', context)
 
 
+def userProfile(request):
+    context = {}
+    return render(request, 'base/profile.html', context)
+
  #all we need to do is add this decorator to restrict certain functionality to a login status
 #the login url parameter above is where we redirect users in the case that theyre not logged in
 @login_required(login_url='login')
