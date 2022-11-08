@@ -92,8 +92,9 @@ def room(request, pk):
     return render(request, 'base/room.html', context)
 
 
-def userProfile(request):
-    context = {}
+def userProfile(request, pk): #we need to pass in the pk to identify the particular users profile
+    user = User.objects.get(id=pk) #select the user whos id matches the primary key
+    context = {'user':user}
     return render(request, 'base/profile.html', context)
 
  #all we need to do is add this decorator to restrict certain functionality to a login status
