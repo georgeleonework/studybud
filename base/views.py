@@ -26,9 +26,7 @@ def loginPage(request):
         except:
             messages.error(request, 'User does not exist')
         #were either verifying that username = username somewhere in the database or alrting the user that that username doesnt exist
-
         user = authenticate(request, username=username, password=password)
-
 #in the following check were going to log the user in if there is a match for both username and password.
         if user is not None:
             login(request, user)
@@ -53,8 +51,11 @@ def registerPage(request):
             user = form.save(commit=False) #were saving this form and freezing it 
             user.username = user.username.lower()
             user.save()
+            login(request, user) #logs the user in once theyre created before redirecting them to the hme page
             return redirect('home') #sends the user back to the homepage once theyre registered and saved
-    
+        else:
+            messages.error(request, 'An error occured during registration')
+            
     return render(request, 'base/login_register.html', {'form':form})
 
 def home(request):
