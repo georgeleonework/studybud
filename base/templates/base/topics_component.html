@@ -1,0 +1,14 @@
+<div>
+    <h3>Browse Topics</h3>
+    <hr> <!-- this is a line break before we loop through and display all of the topics-->
+
+    <div>
+        <a href="{% url 'home' %}"> All </a>
+    </div> <!--this leaves an option for them to go back to all of the topics -->
+
+    {% for topic in topics %}
+    <div>
+        <a href="{% url 'home' %}?q={{topic.name}}">{{topic.name}}</a> <!--added a dynamic link to send you home but subdirected to the topic name-->
+    </div>
+    {% endfor %}
+</div>

@@ -13,53 +13,21 @@
 <div class="home-container"> <!-- this is our main container-->
 
     <div> <!-- this is our container around our list of topics-->
-        <h3>Browse Topics</h3>
-        <hr> <!-- this is a line break before we loop through and display all of the topics-->
-
-        <div>
-            <a href="{% url 'home' %}"> All </a>
-        </div> <!--this leaves an option for them to go back to all of the topics -->
-
-        {% for topic in topics %}
-        <div>
-            <a href="{% url 'home' %}?q={{topic.name}}">{{topic.name}}</a> <!--added a dynamic link to send you home but subdirected to the topic name-->
-        </div>
-        {% endfor %}
-
+        
+        {% include 'base/topics_component.html' %}
     </div>
 
-    <div> <!-- this is our container around our list of rooms-->
+    <div>
         <h5>{{rooms.count}} rooms available </h5>
         <a href="{% url 'create-room' %}">Create Room</a> 
-    <!-- this link allows us to create a room at the top of the list of existing rooms -->
-        <div>
-            {% for room in rooms %}
-                <div>
-                    {% if request.user == room.host %}
-                    <a href="{% url 'update-room' room.id%}">Edit</a>
-                    <a href="{% url 'delete-room' room.id %}">Delete</a>
-                    {% endif %}
-                    <span>@{{room.host.username}}</span>
-                    <h5>{{room.id}} -- <a href="{% url 'room' room.id%}">{{room.name}}</a></h5>
-                <!-- we can use 'room' above because we are referencing the name of the urlpatterns path rather than the url itself -->
-                    <small>{{room.topic}}</small>
-                    <hr>
-                </div>
-            {% endfor %}
-        </div>
+        
+        {% include 'base/feed_component.html' %}
+    </div>
 
     </div>
 
     <div>
-        <h3>Recent Activity</h3>
-        <hr>
-        {% for message in room_messages %}
-            <div>
-                <small>@{{message.user}} {{message.created|timesince}}</small>
-                <small>replied to "{{message.room}}"</small> 
-            </div>
-
-        {% endfor %}
+        {% include 'base/activity_component.html' %}
     </div>
 
 </div>
