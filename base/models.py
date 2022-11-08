@@ -17,7 +17,7 @@ class Room(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=200) #max length is required for charfield
     description = models.TextField(null=True, blank=True) #setting null to true means that it can be blank
-    # participants = this will store all of the participants in a room
+    participants = models.ManyToManyField(User, related_name='participants', blank=True)
     updated = models.DateTimeField(auto_now=True) #every time that the save method is called were taking a time stamps
     created = models.DateTimeField(auto_now_add=True) #auto now add only takes a timestamp when we first save or create this instance
 

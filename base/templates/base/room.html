@@ -8,6 +8,7 @@
         grid-template-columns: 3fr 1fr;
     }
 </style>
+
 <div class="room-container">
 
     <div>
@@ -21,6 +22,7 @@
 
             {% for message in room_messages %}
                 <div>
+                    <a href="{% url 'delete-message' %}">Delete</a>
                     <small>@{{message.user}} {{message.created|timesince}} ago</small>
                     <p>{{message.body}}</p>
                     <hr>
@@ -41,6 +43,13 @@
     <div>
         <h3>Participants</h3>
         <hr>
+
+        {% for user in participants %}
+            <div>
+                <p> @{{user.username}} </p>  
+            </div>
+
+        {% endfor %}
     </div>
 
     
