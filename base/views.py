@@ -67,8 +67,10 @@ def home(request):
 
     topics = Topic.objects.all()
     room_count = rooms.count()
+    room_messages = Message.objects.all() #this is where we would filter out only messages and accounts that we follow
     
-    context = {'rooms': rooms, 'topics':topics}
+    context = {'rooms':rooms, 'topics':topics,
+    'room_count':room_count, 'room_messages':room_messages}
     return render(request, 'base/home.html', context)
 
 
