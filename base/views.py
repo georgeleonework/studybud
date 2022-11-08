@@ -76,7 +76,7 @@ def home(request):
 
 def room(request, pk):
     room = Room.objects.get(id=pk) #sets the room to view as the instance where the id matches the key
-    room_messages = room.message_set.all().order_by('-created')  #we want to order it by the most recent message
+    room_messages = room.message_set.all()  #we want to order it by the most recent message
     participants = room.participants.all()
 
     if request.method == 'POST':
