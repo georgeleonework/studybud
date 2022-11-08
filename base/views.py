@@ -147,4 +147,4 @@ def deleteMessage(request, pk):
     if request.method == 'POST':
         message.delete()
         return redirect('home') #this will send the user back to home if theyve successfully deleted their room
-    return render(request, 'base/delete.html', {'obj':room})
+    return render(request, 'base/delete.html', {'obj': message})
