@@ -97,7 +97,8 @@ def userProfile(request, pk): #we need to pass in the pk to identify the particu
     rooms = user.room_set.all()
     room_messages = user.message_set.all()
     topics = Topic.objects.all()
-    context = {'user':user, 'rooms':rooms, 'room_messages':room_messages, 'topics':topics}
+    context = {'user':user, 'rooms':rooms, 
+    'room_messages':room_messages, 'topics':topics}
     return render(request, 'base/profile.html', context)
 
  #all we need to do is add this decorator to restrict certain functionality to a login status
