@@ -18,7 +18,7 @@ from .forms import RoomForm
 def loginPage(request):
     page = 'login'
     if request.method == 'POST':
-        username = request.POST.get('username')
+        username = request.POST.get('username').lower()
         password = request.POST.get('password')
         #after we get the username and pass we need to verify that the user actually exists
         try: 
@@ -45,8 +45,17 @@ def logoutUser(request):
     return redirect('home')
 
 def registerPage(request):
-    page = 'register'
-    return render(request, 'base/login_register.html')
+    form = UserCreationForm()
+    
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False) #were saving this form and freezing it 
+            user.username = user.username.lower()
+            user.save()
+            return redirect('home') #sends the user back to the homepage once theyre registered and saved
+    
+    return render(request, 'base/login_register.html', {'form':form})
 
 def home(request):
     q = request.GET.get('q') if request.GET.get('q') != None else '' #this is an inline if check that ssets query parameter q
@@ -62,9 +71,6 @@ def home(request):
     
     context = {'rooms': rooms, 'topics':topics}
     return render(request, 'base/home.html', context)
-
-
-
 
 
 def room(request, pk):
