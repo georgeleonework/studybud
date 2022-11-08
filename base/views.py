@@ -55,12 +55,10 @@ def registerPage(request):
             return redirect('home') #sends the user back to the homepage once theyre registered and saved
         else:
             messages.error(request, 'An error occured during registration')
-            
     return render(request, 'base/login_register.html', {'form':form})
 
 def home(request):
     q = request.GET.get('q') if request.GET.get('q') != None else '' #this is an inline if check that ssets query parameter q
-
     rooms = Room.objects.filter(
         Q(topic__name__icontains=q) | #checking the query here to make sure that q has EITHEr of these qualities
         Q(name__icontains=q) |
@@ -75,8 +73,9 @@ def home(request):
 
 
 def room(request, pk):
-    room = Room.objects.get(id=pk) #sets tge room to view as the instance where the id matches the key
-    context = {'room': room}
+    room = Room.objects.get(id=pk) #sets the room to view as the instance where the id matches the key
+    room_messages = room.message_set.all().order_by('-created')  #we want to order it by the most recent message
+    context = {'room': room, 'room_messages':room_messages}
     return render(request, 'base/room.html', context)
 
 
